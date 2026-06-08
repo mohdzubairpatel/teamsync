@@ -6,6 +6,8 @@ import "./index.css";
 
 import { AuthProvider } from "./context/AuthContext";
 
+console.log("API URL:", import.meta.env.VITE_API_URL);
+
 ReactDOM.createRoot(
   document.getElementById("root")
 ).render(

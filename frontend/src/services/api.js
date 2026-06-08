@@ -9,13 +9,15 @@ const api = axios.create({
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
 
-  console.log("TOKEN FOUND:", token);
-  console.log("REQUEST URL:", config.url);
+  console.log("TOKEN =", token);
+  console.log("BEFORE HEADERS =", config.headers);
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
     console.log("AUTH HEADER ADDED");
   }
+
+  console.log("AFTER HEADERS =", config.headers);
 
   return config;
 });

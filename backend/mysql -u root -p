@@ -1,0 +1,22 @@
+    -> Enter password: *****
+    -> Welcome to the MySQL monitor.  Commands end with ; or \g.
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'venv) PS C:\Users\zubai\OneDrive\Desktop
+Enter password: *****
+Welcome to the My' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'or' at line 1
+    -> Your MySQL connection id is 19
+    -> Server version: 8.0.45 MySQL Community Server - GPL
+    -> 
+    -> Copyright (c) 2000, 2026, Oracle and/or its affiliates.
+    -> 
+    -> Oracle is a registered trademark of Oracle Corporation and/or its
+    -> affiliates. Other names may be trademarks of their respective
+    -> owners.
+    -> 
+    -> Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+    -> 
+    -> mysql> exit;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '.
+Your MySQL connection id is 19
+Server version: 8.0.45 MySQL Community Server -' at line 1
+mysql> quit;

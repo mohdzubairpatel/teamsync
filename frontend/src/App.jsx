@@ -10,6 +10,7 @@ import Notifications from "./pages/Notifications";
 import TeamDetails from "./pages/TeamDetails";
 import ExploreTeams from "./pages/ExploreTeams";
 import TeamRequests from "./pages/TeamRequests";
+import Invitations from "./pages/Invitations";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -91,6 +92,11 @@ function App() {
 <Route
   path="/team-requests"
   element={<TeamRequests />}
+/>
+
+<Route
+  path="/invitations"
+  element={<Invitations />}
 />
 
       </Routes>

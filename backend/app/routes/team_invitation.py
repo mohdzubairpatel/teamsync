@@ -40,3 +40,13 @@ class TeamInvitation(db.Model):
         db.DateTime,
         default=datetime.utcnow
     )
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "team_id": self.team_id,
+            "sender_id": self.sender_id,
+            "receiver_id": self.receiver_id,
+            "status": self.status,
+            "created_at": self.created_at.isoformat()
+        }

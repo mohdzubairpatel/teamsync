@@ -10,6 +10,7 @@ from app import db
 from app import bcrypt
 
 from app.models.user import User
+from flask import jsonify
 
 auth_bp = Blueprint(
     "auth",
@@ -143,3 +144,18 @@ def get_me():
         "bio": user.bio,
         "role": user.role
     }), 200
+
+
+@auth_bp.route("/users", methods=["GET"])
+def get_users():
+
+    users = User.query.all()
+
+    return jsonify([
+        {
+            "id": user.id,
+            "name": user.name,
+            "email": user.email
+        }
+        for user in users
+    ]), 200 

@@ -6,12 +6,10 @@ from flask_migrate import Migrate
 from flask_cors import CORS
 from flask_socketio import SocketIO
 
-
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
-
 
 db = SQLAlchemy()
 bcrypt = Bcrypt()
@@ -28,25 +26,43 @@ def create_app():
     flask_app = Flask(__name__)
 
     flask_app.config["SECRET_KEY"] = os.getenv(
-    "SECRET_KEY"
-   )
+        "SECRET_KEY"
+    )
 
     flask_app.config["JWT_SECRET_KEY"] = os.getenv(
-    "JWT_SECRET_KEY"
-  )
+        "JWT_SECRET_KEY"
+    )
 
-    flask_app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv(
-    "DATABASE_URL"
-  )
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = (
+    os.getenv("DATABASE_URL")
+    or "sqlite:///teamsync.db"
+   )
 
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
-    
+    print("DATABASE_URL =", os.getenv("DATABASE_URL"))
+    print("ACTIVE_DB =", flask_app.config["SQLALCHEMY_DATABASE_URI"])
 
     db.init_app(flask_app)
     bcrypt.init_app(flask_app)
     jwt.init_app(flask_app)
     migrate.init_app(flask_app, db)
+
+    # JWT Error Handlers
+    @jwt.invalid_token_loader
+    def invalid_token_callback(error):
+        print("INVALID TOKEN:", error)
+        return {"message": error}, 401
+
+    @jwt.unauthorized_loader
+    def missing_token_callback(error):
+        print("MISSING TOKEN:", error)
+        return {"message": error}, 401
+
+    @jwt.expired_token_loader
+    def expired_token_callback(jwt_header, jwt_payload):
+        print("TOKEN EXPIRED")
+        return {"message": "Token expired"}, 401
 
     socketio.init_app(
         flask_app,
@@ -68,13 +84,12 @@ def create_app():
     from app.routes.team_routes import team_bp
     from app.routes.task_routes import task_bp
     from app.routes.dashboard_routes import dashboard_bp
-    from app.routes.team_invitation_routes import invitation_bp
     from app.routes.notification_routes import notification_bp
     from app.routes.activity_routes import activity_bp
     from app.routes.analytics_routes import analytics_bp
     from app.routes.announcement_routes import announcement_bp
     from app.routes.team_request_routes import request_bp
-
+    from app.routes.team_invitation_routes import invitation_bp
 
     flask_app.register_blueprint(auth_bp)
     flask_app.register_blueprint(profile_bp)
@@ -85,13 +100,12 @@ def create_app():
     flask_app.register_blueprint(team_bp)
     flask_app.register_blueprint(task_bp)
     flask_app.register_blueprint(dashboard_bp)
-    flask_app.register_blueprint(invitation_bp)
     flask_app.register_blueprint(notification_bp)
     flask_app.register_blueprint(activity_bp)
     flask_app.register_blueprint(analytics_bp)
     flask_app.register_blueprint(announcement_bp)
     flask_app.register_blueprint(request_bp)
-    
+    flask_app.register_blueprint(invitation_bp)
 
     @flask_app.route("/")
     def home():
@@ -100,7 +114,7 @@ def create_app():
             "status": "running",
             "version": "1.0"
         }
-    
+
     for rule in flask_app.url_map.iter_rules():
         print(rule)
 

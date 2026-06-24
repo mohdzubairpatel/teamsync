@@ -14,3 +14,4 @@ from .team_invitation import TeamInvitation
 from .notification import Notification
 from .activity import Activity
 from .announcement import Announcement
+from app.models.team_invitation import TeamInvitation
